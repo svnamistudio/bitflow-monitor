@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Investment Dashboard</title>
+    <meta name="description" content="Modern Bitcoin Investment Dashboard">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-dark">
+    <div class="container-fluid p-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10">
+                
+                <!-- Header -->
+                <div class="card gradient-card shadow-card mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h1 class="text-gold mb-1 h3">Welcome back</h1>
+                                <p class="text-muted mb-0" id="userName">John Doe</p>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-outline-light" onclick="handleLogout()">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    
+                    <!-- Balance Card -->
+                    <div class="col-12 col-lg-6 col-xl-4">
+                        <div class="card gradient-card shadow-glow border-gold">
+                            <div class="card-header text-center">
+                                <h5 class="card-title text-gold mb-0">
+                                    <i class="fab fa-bitcoin me-2"></i>Bitcoin Balance
+                                </h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="mb-4">
+                                    <div class="display-6 fw-bold text-light pulse-glow" id="btcBalance">1.25847332 BTC</div>
+                                    <div class="text-muted mt-2" id="usdBalance">≈ $150,000</div>
+                                </div>
+                                
+                                <div class="d-flex gap-3 justify-content-center mb-4">
+                                    <button class="btn gradient-success" onclick="handleFund()">
+                                        <i class="fas fa-plus me-2"></i>Fund
+                                    </button>
+                                    <button class="btn btn-secondary" id="withdrawBtn" onclick="handleWithdraw()" disabled>
+                                        <i class="fas fa-minus me-2"></i>Withdraw
+                                    </button>
+                                </div>
+
+                                <div class="border-top border-secondary pt-3">
+                                    <div class="text-muted small mb-2">Your Wallet Address:</div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <code class="bg-dark p-2 rounded flex-grow-1 small cursor-pointer" 
+                                              id="walletAddress" onclick="toggleFullAddress()">
+                                            bc1qxy2k...kjhx0wlh
+                                        </code>
+                                        <button class="btn btn-outline-light btn-sm" onclick="copyAddress()">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <div class="text-muted small mt-1">Click address to show full</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price Checker -->
+                    <div class="col-12 col-lg-6 col-xl-4">
+                        <div class="card gradient-card shadow-card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-chart-line text-bitcoin me-2"></i>Live BTC Price
+                                </h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="mb-4">
+                                    <div class="h2 fw-bold text-light" id="btcPrice">$123,074</div>
+                                    <div class="d-flex align-items-center justify-content-center" id="priceChange">
+                                        <i class="fas fa-arrow-up text-success me-1"></i>
+                                        <span class="text-success">+2.59%</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between text-muted small">
+                                    <span>Last updated:</span>
+                                    <span id="lastUpdated">--:--:--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Funding Options -->
+                    <div class="col-12 col-lg-6 col-xl-4">
+                        <div class="card gradient-card shadow-card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-dollar-sign text-gold me-2"></i>Funding Options
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted small mb-4">Multiple ways to fund your Bitcoin wallet</p>
+                                
+                                <div class="d-grid gap-3">
+                                    <button class="btn btn-outline-light text-start p-3" onclick="handleContactSupport()">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-comments text-gold me-3"></i>
+                                            <div>
+                                                <div class="fw-semibold">Contact Support</div>
+                                                <div class="small text-muted">Fiat-to-crypto funding assistance</div>
+                                            </div>
+                                        </div>
+                                    </button>
+
+                                    <button class="btn gradient-success text-start p-3" onclick="handleQuickFund()">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-credit-card me-3"></i>
+                                            <div>
+                                                <div class="fw-semibold">Quick Fund</div>
+                                                <div class="small opacity-75">Instant crypto purchase</div>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </div>
+
+                                <div class="mt-4 p-3 bg-dark rounded border-start border-4 border-warning">
+                                    <div class="small text-warning fw-semibold">Bank Transfer</div>
+                                    <div class="small text-muted mt-1">
+                                        Wire transfers available 24/7 • 0.1% fee • 1-3 business days
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Market Rates -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card gradient-card shadow-card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Market Rates</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="marketRates" class="d-grid gap-3">
+                                    <!-- Market rates will be populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Market Timer -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card gradient-card shadow-card border-success">
+                            <div class="card-header">
+                                <h5 class="card-title text-success mb-0">
+                                    <i class="fas fa-clock me-2"></i>Market Rise Prediction
+                                </h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="mb-4">
+                                    <div class="text-muted small mb-2">Time until predicted rise:</div>
+                                    <div class="h2 fw-bold text-success" id="countdown">23:45:30</div>
+                                </div>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-6">
+                                        <div class="bg-dark p-3 rounded">
+                                            <div class="small text-muted">Previous High</div>
+                                            <div class="h6 fw-semibold text-success">$69,000</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="bg-dark p-3 rounded">
+                                            <div class="small text-muted">Previous Low</div>
+                                            <div class="h6 fw-semibold text-danger">$15,500</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-darker p-3 rounded border border-success">
+                                    <div class="d-flex align-items-center justify-content-center text-success mb-1">
+                                        <i class="fas fa-trending-up me-2"></i>
+                                        <span class="small">Target Price</span>
+                                    </div>
+                                    <div class="h5 fw-bold text-success mb-0">$50,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Chat -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card gradient-card shadow-card border-warning">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-comment-dots text-gold me-2"></i>Support Center
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted small mb-4">Get instant help from our crypto experts</p>
+                                
+                                <div class="d-grid gap-3 mb-4">
+                                    <div class="d-flex align-items-center gap-3 p-3 bg-dark rounded">
+                                        <i class="fas fa-users text-success"></i>
+                                        <div>
+                                            <div class="small fw-semibold">Live Agents</div>
+                                            <div class="small text-success">12 agents online</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center gap-3 p-3 bg-dark rounded">
+                                        <i class="fas fa-clock text-gold"></i>
+                                        <div>
+                                            <div class="small fw-semibold">Avg Response</div>
+                                            <div class="small text-muted">Under 2 minutes</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn gradient-gold text-dark fw-semibold w-100" onclick="handleOpenChat()">
+                                    Start Live Chat
+                                </button>
+
+                                <div class="text-center text-muted small mt-3">
+                                    Available 24/7 • Powered by Freshchat
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="mt-4 p-4 bg-dark rounded overflow-hidden">
+                    <div class="ticker text-muted small">
+                        📈 Bitcoin trading is highly volatile and involves significant risk. Past performance does not guarantee future results. 
+                        Trade responsibly and only invest what you can afford to lose. 
+                        🔒 Your funds are secured with bank-level encryption and cold storage technology.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+</body>
+</html>
