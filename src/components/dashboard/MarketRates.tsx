@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp, TrendingDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { TrendingUp, TrendingDown, RefreshCw } from "lucide-react";
+import { useMarketData } from "@/hooks/useMarketData";
 
 interface CryptoRate {
   symbol: string;
@@ -11,61 +12,41 @@ interface CryptoRate {
 }
 
 export const MarketRates = () => {
-  const [rates, setRates] = useState<CryptoRate[]>([
+  const { prices, formatCurrency, isLoading, refresh } = useMarketData();
+
+  // Default rates with real-time updates from useMarketData
+  const defaultRates: CryptoRate[] = [
     { symbol: 'BTC', name: 'Bitcoin', price: 45000, change24h: 2.34, icon: '₿' },
     { symbol: 'ETH', name: 'Ethereum', price: 2800, change24h: -1.23, icon: 'Ξ' },
     { symbol: 'USDT', name: 'Tether', price: 1.00, change24h: 0.02, icon: '₮' }
-  ]);
+  ];
 
-  const fetchRates = async () => {
-    try {
-      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd&include_24hr_change=true');
-      const data = await response.json();
-      
-      setRates([
-        { 
-          symbol: 'BTC', 
-          name: 'Bitcoin', 
-          price: data.bitcoin.usd, 
-          change24h: data.bitcoin.usd_24h_change, 
-          icon: '₿' 
-        },
-        { 
-          symbol: 'ETH', 
-          name: 'Ethereum', 
-          price: data.ethereum.usd, 
-          change24h: data.ethereum.usd_24h_change, 
-          icon: 'Ξ' 
-        },
-        { 
-          symbol: 'USDT', 
-          name: 'Tether', 
-          price: data.tether.usd, 
-          change24h: data.tether.usd_24h_change, 
-          icon: '₮' 
-        }
-      ]);
-    } catch (error) {
-      console.error('Failed to fetch rates:', error);
-      // Simulate market movement
-      setRates(prev => prev.map(rate => ({
-        ...rate,
-        price: rate.price * (1 + (Math.random() - 0.5) * 0.01),
-        change24h: rate.change24h + (Math.random() - 0.5) * 0.5
-      })));
+  // Merge with real-time data if available
+  const rates = defaultRates.map(defaultRate => {
+    const livePrice = prices.find(p => p.symbol.includes(defaultRate.symbol));
+    if (livePrice) {
+      return {
+        ...defaultRate,
+        price: livePrice.price,
+        change24h: livePrice.changePercent24h
+      };
     }
-  };
-
-  useEffect(() => {
-    fetchRates();
-    const interval = setInterval(fetchRates, 30000);
-    return () => clearInterval(interval);
-  }, []);
+    return defaultRate;
+  });
 
   return (
     <Card className="gradient-card shadow-card">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle>Market Rates</CardTitle>
+        <Button 
+          size="sm" 
+          variant="ghost" 
+          onClick={refresh}
+          disabled={isLoading}
+          className="p-1 h-8 w-8"
+        >
+          <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+        </Button>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">

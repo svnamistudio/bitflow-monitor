@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 interface BalanceCardProps {
   balance: number;
+  usdValue: number;
   walletAddress: string;
   onFund: () => void;
   onWithdraw: () => void;
@@ -14,6 +15,7 @@ interface BalanceCardProps {
 
 export const BalanceCard = ({ 
   balance, 
+  usdValue,
   walletAddress, 
   onFund, 
   onWithdraw, 
@@ -45,7 +47,7 @@ export const BalanceCard = ({
             {balance.toFixed(8)} BTC
           </div>
           <div className="text-sm text-muted-foreground mt-2">
-            ≈ ${(balance * 45000).toLocaleString()}
+            ≈ ${usdValue.toLocaleString()}
           </div>
         </div>
 

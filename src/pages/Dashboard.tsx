@@ -6,44 +6,86 @@ import { MarketRates } from "@/components/dashboard/MarketRates";
 import { MarketTimer } from "@/components/dashboard/MarketTimer";
 import { FundingOptions } from "@/components/dashboard/FundingOptions";
 import { SupportChat } from "@/components/dashboard/SupportChat";
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { useWallet } from "@/hooks/useWallet";
+import { useMarketData } from "@/hooks/useMarketData";
 import { toast } from "sonner";
 
-const Dashboard = () => {
-  const [user] = useState({
-    name: "John Doe",
-    balance: 1.25847332
-  });
-
-  const [walletAddress] = useState("bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh");
+const DashboardContent = () => {
+  const { user, logout } = useAuth();
+  const { getBTCBalance, requestDepositAddress, createWithdrawal, checkDeposits } = useWallet();
+  const { btcPrice, calculateUSDValue } = useMarketData();
   const [withdrawEnabled, setWithdrawEnabled] = useState(false);
 
+  // Mock user for demo - replace with actual auth
+  const mockUser = user || {
+    userId: "demo_user_123",
+    fullName: "John Doe",
+    email: "john@example.com",
+    username: "johndoe",
+    passwordHash: "hashed_password",
+    status: "active" as const,
+    createdAt: new Date().toISOString(),
+    btcAddress: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh"
+  };
+
+  const btcBalance = getBTCBalance();
+  const usdValue = calculateUSDValue(btcBalance);
+
   const handleLogout = () => {
+    logout();
     toast.info("Logging out...");
   };
 
-  const handleFund = () => {
-    toast.success("Funding request initiated. Redirecting to payment options...");
+  const handleFund = async () => {
+    try {
+      toast.info("Generating deposit address...");
+      const depositInfo = await requestDepositAddress();
+      toast.success(`Deposit to: ${depositInfo.address}`);
+      
+      // Start checking for deposits
+      checkDeposits();
+    } catch (error) {
+      toast.error("Failed to generate deposit address. Please try again.");
+    }
   };
 
-  const handleWithdraw = () => {
+  const handleWithdraw = async () => {
     if (!withdrawEnabled) {
       toast.error("Withdrawals are currently disabled. Please contact support to enable.");
       return;
     }
-    toast.info("Withdraw request submitted for review.");
+    
+    // In a real app, you'd show a withdrawal form
+    const address = prompt("Enter withdrawal address:");
+    const amount = parseFloat(prompt("Enter amount (BTC):") || "0");
+    
+    if (!address || !amount || amount <= 0) {
+      toast.error("Invalid withdrawal details");
+      return;
+    }
+    
+    try {
+      toast.info("Processing withdrawal...");
+      await createWithdrawal(address, amount);
+      toast.success("Withdrawal request submitted for review.");
+    } catch (error) {
+      toast.error("Failed to process withdrawal. Please try again.");
+    }
   };
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-6">
       <div className="max-w-7xl mx-auto space-y-6">
-        <Header userName={user.name} onLogout={handleLogout} />
+        <Header userName={mockUser.fullName} onLogout={handleLogout} />
         
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {/* Main Balance Card - Takes full width on mobile, 2 cols on xl */}
           <div className="lg:col-span-2 xl:col-span-1">
             <BalanceCard
-              balance={user.balance}
-              walletAddress={walletAddress}
+              balance={btcBalance}
+              usdValue={usdValue}
+              walletAddress={mockUser.btcAddress || ""}
               onFund={handleFund}
               onWithdraw={handleWithdraw}
               withdrawEnabled={withdrawEnabled}
@@ -86,6 +128,14 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const Dashboard = () => {
+  return (
+    <AuthProvider>
+      <DashboardContent />
+    </AuthProvider>
   );
 };
 
