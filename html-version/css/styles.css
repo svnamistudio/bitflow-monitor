@@ -1,0 +1,218 @@
+/* Custom CSS for Bitcoin Investment Dashboard */
+
+/* Font */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+    min-height: 100vh;
+}
+
+/* Color Variables */
+:root {
+    --color-gold: #f7931a;
+    --color-bitcoin: #f7931a;
+    --color-success: #10b981;
+    --color-danger: #ef4444;
+    --color-dark-surface: #1e293b;
+    --color-darker: #0f172a;
+    --color-border: #334155;
+}
+
+/* Custom Colors */
+.text-gold { color: var(--color-gold) !important; }
+.text-bitcoin { color: var(--color-bitcoin) !important; }
+.border-gold { border-color: var(--color-gold) !important; }
+.bg-darker { background-color: var(--color-darker) !important; }
+
+/* Gradient Cards */
+.gradient-card {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    color: white;
+}
+
+/* Gradient Buttons */
+.gradient-success {
+    background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.gradient-success:hover {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    transform: translateY(-1px);
+    color: white;
+}
+
+.gradient-gold {
+    background: linear-gradient(135deg, var(--color-gold) 0%, #d97706 100%);
+    border: none;
+    color: black;
+    transition: all 0.3s ease;
+}
+
+.gradient-gold:hover {
+    box-shadow: 0 0 20px rgba(247, 147, 26, 0.4);
+    transform: translateY(-1px);
+    color: black;
+}
+
+/* Shadow Effects */
+.shadow-card {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+.shadow-glow {
+    box-shadow: 0 0 40px rgba(247, 147, 26, 0.2);
+}
+
+/* Animations */
+.pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-glow {
+    from {
+        text-shadow: 0 0 20px rgba(247, 147, 26, 0.3);
+    }
+    to {
+        text-shadow: 0 0 30px rgba(247, 147, 26, 0.6);
+    }
+}
+
+/* Ticker Animation */
+.ticker {
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes ticker {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Custom Button Styles */
+.btn {
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: white;
+}
+
+/* Card Enhancements */
+.card {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.card-header {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+/* Market Rate Cards */
+.market-rate-item {
+    background: var(--color-dark-surface);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.market-rate-item:hover {
+    background: rgba(30, 41, 59, 0.8);
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 1rem;
+    }
+    
+    .display-6 {
+        font-size: 2rem;
+    }
+    
+    .h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-darker);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold);
+}
+
+/* Toast Styles */
+.toast {
+    background: var(--color-dark-surface);
+    color: white;
+    border: 1px solid var(--color-border);
+}
+
+.toast-success {
+    border-left: 4px solid var(--color-success);
+}
+
+.toast-error {
+    border-left: 4px solid var(--color-danger);
+}
+
+.toast-info {
+    border-left: 4px solid #3b82f6;
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Cursor pointer for clickable elements */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Border styles */
+.border-start {
+    border-left: 4px solid !important;
+}

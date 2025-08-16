@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Bitcoin Dashboard Design System - All colors, gradients, fonts, etc defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Bitcoin Dashboard Color Palette */
+    --background: 220 13% 9%;
+    --foreground: 45 100% 95%;
+
+    --card: 220 13% 12%;
+    --card-foreground: 45 100% 95%;
+
+    --popover: 220 13% 12%;
+    --popover-foreground: 45 100% 95%;
+
+    --primary: 45 100% 60%;
+    --primary-foreground: 220 13% 9%;
+
+    --secondary: 220 13% 18%;
+    --secondary-foreground: 45 100% 95%;
+
+    --muted: 220 13% 18%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 45 100% 60%;
+    --accent-foreground: 220 13% 9%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --success: 120 100% 40%;
+    --success-foreground: 0 0% 98%;
+
+    --border: 220 13% 20%;
+    --input: 220 13% 18%;
+    --ring: 45 100% 60%;
+
+    --radius: 0.75rem;
+
+    /* Bitcoin-specific colors */
+    --bitcoin-orange: 25 100% 53%;
+    --gold: 45 100% 60%;
+    --crypto-green: 120 100% 40%;
+    --crypto-red: 0 84% 60%;
+    --dark-surface: 220 13% 15%;
+    --darker-surface: 220 13% 12%;
+
+    /* Gradients */
+    --gradient-gold: linear-gradient(135deg, hsl(45 100% 60%), hsl(35 100% 50%));
+    --gradient-bitcoin: linear-gradient(135deg, hsl(25 100% 53%), hsl(35 100% 45%));
+    --gradient-success: linear-gradient(135deg, hsl(120 100% 40%), hsl(140 100% 35%));
+    --gradient-card: linear-gradient(135deg, hsl(220 13% 12%), hsl(220 13% 15%));
+
+    /* Shadows */
+    --shadow-glow: 0 0 30px hsl(45 100% 60% / 0.2);
+    --shadow-card: 0 10px 30px -5px hsl(220 13% 5% / 0.3);
+    --shadow-bitcoin: 0 0 40px hsl(25 100% 53% / 0.3);
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-poppins;
+  }
+
+  /* Custom utility classes */
+  .gradient-gold {
+    background: var(--gradient-gold);
+  }
+
+  .gradient-bitcoin {
+    background: var(--gradient-bitcoin);
+  }
+
+  .gradient-success {
+    background: var(--gradient-success);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-bitcoin {
+    box-shadow: var(--shadow-bitcoin);
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse-glow {
+    from {
+      box-shadow: 0 0 20px hsl(45 100% 60% / 0.2);
+    }
+    to {
+      box-shadow: 0 0 40px hsl(45 100% 60% / 0.4);
+    }
+  }
+
+  .ticker {
+    animation: ticker 30s linear infinite;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+}
